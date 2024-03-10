@@ -1,0 +1,20 @@
+﻿@model Subscriber
+
+<form asp-controller="Home" asp-action="Subscribe" method="post" class="d-flex gap-2">
+    <div class="form-group">
+        <input type="text"
+               placeholder="Name"
+               class="form-control focus-ring-none p-2 rounded-0" name="Name" />
+        <span asp-validation-for="Name" class="text-red"></span>
+    </div>
+    <div class="form-group">
+        <input type="email"
+               placeholder="E-mail"
+               class="form-control focus-ring-none p-2 rounded-0" name="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <button type="submit"
+            class="button btn-dark pt-1 pb-1 ps-4 pe-4 z-1 fw-semibold rounded-0">
+        Subscribe
+    </button>
+</form>

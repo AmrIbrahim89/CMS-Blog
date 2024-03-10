@@ -1,0 +1,104 @@
+﻿@model IEnumerable<BlogPost>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "All Posts";
+    int counter = 1;
+    //ViewBag.CurrentUrl = "~/Persons/Index";
+}
+
+<form asp-controller="Admin" asp-action="AllPosts" method="get">
+
+    <!-- Row start -->
+    <div class="row">
+        <div class="col-xxl-12 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Row start -->
+                    <div class="row">
+                        <div class="container table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Post Image</th>
+                                        @await Html.PartialAsync("~/Views/Shared/_ColumnHeaderSorter.cshtml", new ViewDataDictionary(ViewData) {
+                                        {"ColumnName" , nameof(BlogPost.Title)},
+                                        {"DisplayName", "Post Title"}
+                                        })
+
+                                        @await Html.PartialAsync("~/Views/Shared/_ColumnHeaderSorter.cshtml", new ViewDataDictionary(ViewData) {
+                                        {"ColumnName" , nameof(BlogPost.AuthorName)},
+                                        {"DisplayName", "Post Author"}
+                                        })
+
+                                        @await Html.PartialAsync("~/Views/Shared/_ColumnHeaderSorter.cshtml", new ViewDataDictionary(ViewData) {
+                                        {"ColumnName" , nameof(BlogPost.Date)},
+                                        {"DisplayName", "Post Date"}
+                                        })
+                                        
+                                        @await Html.PartialAsync("~/Views/Shared/_ColumnHeaderSorter.cshtml", new ViewDataDictionary(ViewData) {
+                                        {"ColumnName" , nameof(BlogPost.PostViews)},
+                                        {"DisplayName", "Post Views"}
+                                        })
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (BlogPost post in Model)
+                                    {
+                                        <tr>
+                                            <td scope="row">@String.Join("", post.PostID.ToString()!.Take(3))</td>
+                                            <td>
+                                                <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData!)"
+                                                     alt="post image"
+                                                     class="img-fluid"
+                                                     width="100" />
+                                            </td>
+                                            <td>@post.Title</td>
+                                            <td>@post.Author</td>
+                                            <td>@post.Date.ToString("yyyy-MM-dddd")</td>
+                                            <td>@post.PostViews</td>
+                                            <td>
+                                                <div class="blog-posts-container">
+                                                    <div class="blog-post">
+                                                        <input type="hidden" class="post-id" value="@post.PostID">
+                                                        @if (post.IsFeatured)
+                                                        {
+                                                            <i class="featured-icon marked-featured fa-solid fa-star"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="featured-icon fa-solid fa-star"></i>
+                                                        }
+                                                        <a asp-controller="Admin" asp-action="UpdatePost" asp-route-ID="@post.PostID" class="btn btn-warning">Edit</a>
+                                                        <a asp-controller="Admin" asp-action="DeletePost" asp-route-postID="@post.PostID" class="btn btn-danger">Delete</a>
+                                                        <a asp-controller="Home" asp-action="Post" asp-route-id="@post.PostID" class="btn btn-primary">View</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @* Pagination Start *@
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" asp-controller="Admin" asp-action="AllPosts">Previous</a></li>
+                                    @while (counter <= ViewBag.TotalPages)
+                                    {
+                                        <li class="page-item"><a class="page-link" asp-controller="Admin" asp-action="AllPosts" asp-route-pageNumber="@counter">@counter</a></li>
+                                        counter++;
+                                    }
+                                    <li class="page-item"><a class="page-link" asp-controller="Admin" asp-action="AllPosts" asp-route-pageNumber="@counter">Next</a></li>
+                                </ul>
+                            </nav>
+                            @* Pagination End *@
+                        </div>
+                    </div>
+                    <!-- Row end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

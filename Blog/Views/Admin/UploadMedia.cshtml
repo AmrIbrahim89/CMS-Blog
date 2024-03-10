@@ -1,0 +1,119 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Upload Media";
+}
+
+<form asp-action="UploadMedia" asp-controller="Admin" method="post" enctype="multipart/form-data">
+    <!-- Row start -->
+    <div class="row">
+        <div class="col-xxl-12 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Row start -->
+                    <div class="row justify-content-center align-items-end">
+                        <div class="col-xxl-4 col-sm-4 col-4 align-self-start">
+                            <div class="mb-3 mt-3">
+                                <label for="formFile" class="form-label">Upload Image(s)</label>
+                                <input class="form-control media"
+                                       type="file"
+                                       name="file"
+                                       id="formFile" onchange="previewFile()" />
+                            </div>
+                            <div class="mb-3 mt-3">
+                                <div class="d-flex gap-1">
+                                    <button type="submit" class="btn btn-success">Upload All</button>
+                                    <button type="button" class="btn btn-danger remove">Remove All</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xxl-8 col-sm-8 col-8">
+                            <label for="UploadQueue">Upload Queue</label>
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Image Name</th>
+                                        <th scope="col">Image Size (kb)</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="image-queue">
+                                    <tr class="starter-queue">
+                                        <td class="image-name">Queue Progress...</td>
+                                        <td class="image-size"></td>
+                                        @*<td>
+                                        <a class="btn btn-success">Upload</a>
+                                        <a class="btn btn-danger">Remove</a>
+                                        </td>*@
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Row end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+
+    let removeButton = document.querySelector(".remove");
+    let imageQueueContainer = document.querySelector(".image-queue");
+    // let removebtns = document.querySelectorAll(."remove-single");
+
+
+    removeButton.addEventListener("click", () => {
+
+        imageQueueContainer.innerHTML = "";
+    })
+
+    // removebtns.forEach(btn => {
+    //     btn.addEventListener("click", () => {
+
+    //     })
+    // })
+
+
+    ///////////////////////
+
+    function previewFile() {
+
+        let input = document.getElementById("formFile");
+        const selectedFile = input.files[0];
+
+        //selectedFile is an array of file objects
+        if (selectedFile) {
+
+            let tr = document.createElement('tr');
+
+            let td1 = document.createElement('td');
+            td1.innerText = selectedFile.name;
+            td1.classList.add("image-name");
+            tr.appendChild(td1);
+
+            let td2 = document.createElement('td');
+            td2.innerText = (selectedFile.size / 1000).toString();
+            td2.classList.add("image-size");
+            tr.appendChild(td2);
+
+            let td3 = document.createElement('td');
+            let upload = document.createElement('button');
+            upload.innerText = "Upload";
+            upload.classList.add("btn", "btn-success");
+            upload.href = "/Admin/UploadMedia";
+            upload.type = "submit";
+            let remove = document.createElement('button');
+            remove.innerText = "Remove";
+            remove.classList.add("btn", "btn-danger", "remove-single");
+            remove.type = "button";
+            td3.appendChild(upload);
+            td3.appendChild(remove);
+            td3.classList.add('d-flex', 'gap-1');
+            tr.appendChild(td3);
+
+            imageQueueContainer.appendChild(tr);
+        }
+    }
+
+</script>

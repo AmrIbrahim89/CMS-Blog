@@ -1,0 +1,43 @@
+﻿@* LatestRecipes Component *@
+
+@model List<BlogPost>
+
+<section class="recent-section pt-2 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="section-title-wrap mb-3 d-flex align-items-center gap-4">
+                <div class="section-title">
+                    <h5 class="title-latest fw-bold fs-4 text-teal">
+                        Explore Latest Recipes
+                    </h5>
+                </div>
+                <div class="view-all-btn button">
+                    <a asp-controller="Home" asp-action="AllRecipes" class="link-btn btn btn-dark rounded-0 p-2">View All</a>
+                </div>
+                <div class="section-title-line"></div>
+            </div>
+            @foreach (BlogPost post in Model.Take(4))
+            {
+                <div class="col-lg-3 col-md-4 col-sm-2">
+                    <div class="recent-post-item d-flex flex-column align-items-center">
+                        <div class="recent-post-img w-100">
+                            @if (post.ImageData is not null)
+                            {
+                                <a asp-controller="Home" asp-action="Post" asp-route-ID="@(post.PostID)" class="link"> 
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData)"
+                                         alt="Recipe-Image"
+                                         class="img-fluid" />
+                                </a>
+                            }
+                        </div>
+                        <div class="recent-post-content pt-2">
+                            <h2 class="fs-6 fw-semibold pt-1 text-center text-teal">
+                                @post.Title
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

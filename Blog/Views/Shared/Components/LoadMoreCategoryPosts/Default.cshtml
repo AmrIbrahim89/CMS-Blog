@@ -1,0 +1,39 @@
+﻿@* LoadMoreCategoryPosts Component *@
+@model IEnumerable<BlogPost>
+
+@{
+    foreach (BlogPost post in Model)
+    {
+        <div class="col-lg-4 col-sm-6 load-more-posts-container">
+
+            <div class="receipe-post-img mt-5">
+                @if (post.ImageData is not null)
+                {
+                    <a asp-controller="Home" asp-action="Post" asp-route-ID="@post.PostID">
+                        <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData)"
+                             alt="Recipe"
+                             class="img-fluid rounded receipe-img"
+                             loading="lazy" />
+                    </a>
+                }
+            </div>
+            <div class="featured-post-content pt-2">
+                <h2 class="fs-5 fw-bold text-center text-teal">
+                    @post.Title
+                </h2>
+                <p class="ellipsis mb-1">@Html.Raw(post.Description)</p>
+                <div class="post-meta">
+                    <div class="d-flex gap-3 justify-content-center align-items-center">
+                        <p class="text-secondary"><i style="color: #d84" class="fas fa-calendar-check"></i> @post.Date.ToString("dd MMMM, yyyy")</p>
+                        @foreach (Category category in post.Categories!)
+                        {
+                            <p class="text-secondary"><i style="color: #d84" class="fas fa-cheese"></i> @category.CategoryName</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+

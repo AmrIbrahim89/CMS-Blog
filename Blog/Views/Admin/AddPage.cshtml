@@ -1,0 +1,72 @@
+﻿@model Page
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Add Page";
+}
+
+<form asp-action="AddPage" asp-controller="Admin" method="post" enctype="multipart/form-data">
+    <!-- Row start -->
+    <div class="row">
+        <div class="col-xxl-12 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Row start -->
+                    <div class="row">
+                        <div class="col-xxl-12 col-sm-8 col-12">
+                            <label asp-for="Title">Page Title</label>
+                            <div class="input-group mb-3">
+                                <input asp-for="Title"
+                                       class="form-control"
+                                       aria-label="Default"
+                                       aria-describedby="inputGroup-sizing-default" />
+                            </div>
+
+                        </div>
+
+                        <label asp-for="Content" class="form-label">Page Content</label>
+                        <div class="form-outline" data-mdb-input-init>
+                            <textarea class="form-control content"
+                                      id="tiny"
+                                      rows="4"
+                                      asp-for="Content"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex align-items-center">
+                            <div class="mb-3 mt-3">
+                                <label for="formFile" class="form-label">Upload Page Banner</label>
+                                <input class="form-control"
+                                       type="file"
+                                       name="imageFile"
+                                       id="formFile" />
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        Add Page
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row end -->
+</form>
+
+<!--Tinymce Script-->
+<script>
+    tinymce.init({
+        selector: "textarea#tiny",
+        plugins:
+            "anchor autolink charmap codesample emoticons image link lists media searchreplace table textcolor colorpicker visualblocks wordcount linkchecker",
+        toolbar:
+            "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat forecolor | backcolor",
+        tinycomments_mode: "embedded",
+    });
+</script>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

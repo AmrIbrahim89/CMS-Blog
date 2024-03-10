@@ -1,0 +1,115 @@
+﻿@model BlogPostAddRequest
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Add Post";
+}
+
+<form asp-action="AddPost" asp-controller="Admin" method="post" enctype="multipart/form-data">
+    <!-- Row start -->
+    <div class="row">
+        <div class="col-xxl-12 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Row start -->
+                    <div class="row">
+                        <div class="col-xxl-12 col-sm-8 col-12">
+                            <label asp-for="Title">Post Title</label>
+                            <div class="input-group mb-3 d-flex flex-column">
+                                <input asp-for="Title"
+                                       class="form-control w-100"
+                                       aria-label="Default"
+                                       aria-describedby="inputGroup-sizing-default" />
+                                <span asp-validation-for="Title" class="text-red"></span>
+
+                            </div>
+
+                            <label asp-for="Description"></label>
+                            <div class="input-group mb-3 d-flex flex-column">
+                                <input asp-for="Description"
+                                       class="form-control w-100"
+                                       aria-label="Default"
+                                       aria-describedby="inputGroup-sizing-default" />
+                                <span asp-validation-for="Description" class="text-red"></span>
+                            </div>
+
+                        </div>
+                        <label asp-for="Ingredients">Add Ingredients Dash(-) Separated</label>
+                        <div class="input-group mb-3 d-flex flex-column">
+                            <input asp-for="Ingredients"
+                                   class="form-control w-100"
+                                   aria-label="Default"
+                                   aria-describedby="inputGroup-sizing-default" />
+                            <span asp-validation-for="Ingredients" class="text-red"></span>
+                        </div>
+
+                        <label asp-for="Content" class="form-label">Post Content</label>
+                        <div class="form-outline" data-mdb-input-init>
+                            <textarea class="form-control content"
+                                      id="tiny"
+                                      rows="4"
+                                      asp-for="Content"></textarea>
+                            <span asp-validation-for="Content" class="text-red"></span>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="formFile" class="form-label">Upload Image(s)</label>
+                            <input class="form-control"
+                                   type="file"
+                                   name="ImageFile"
+                                   id="formFile" />
+                            <span asp-validation-for="ImageFile" class="text-red"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label asp-for="ImageTitle">Image Title</label>
+                            <div class="input-group mb-3">
+                                <input asp-for="ImageTitle"
+                                       class="form-control"
+                                       aria-label="Default"
+                                       aria-describedby="inputGroup-sizing-default" />
+                            </div>
+                        </div>
+
+                        <label asp-for="CategoriesID" class="mb-1">Choose Category</label>
+                        <div class="mb-3">
+                            <select name="CategoriesID" class="form-select" aria-label="Default" multiple>
+                                @foreach (Category category in ViewBag.Categories)
+                                {
+                                    <option value="@category.CategoryID">@category.CategoryName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="CategoriesID" class="text-red"></span>
+                        </div>
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-primary">
+                                Add Post
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row end -->
+            </div>
+        </div>
+    </div>
+    <!-- Row end -->
+</form>
+
+<!--Tinymce Script-->
+<script>
+    tinymce.init({
+        selector: "textarea#tiny",
+        plugins:
+            "anchor autolink charmap codesample emoticons image link lists media searchreplace table textcolor colorpicker visualblocks wordcount linkchecker",
+        toolbar:
+            "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat forecolor | backcolor",
+        tinycomments_mode: "embedded",
+    });
+</script>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

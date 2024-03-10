@@ -1,0 +1,51 @@
+﻿<!--Font specific for this view-->
+<style>
+    body {
+        font-family: "Manrope", sans-serif;
+    }
+</style>
+
+@model Page
+
+@{
+    ViewBag.Title = "About";
+}
+
+<section class="page pt-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <!--Page Content-->
+            <div class="col-12">
+                <div class="page-image">
+                    <img src="data:image/png;base64,@Convert.ToBase64String(Model.ImageData!)"
+                         alt="Image"
+                         class="img-fluid"
+                         loading="lazy"
+                         style="max-height: 400px" width="100"/>
+                </div>
+
+                <div class="page-content">
+                    <h1 class="text-center pt-4 pb-4">@Model.Title</h1>
+                    <div class="page-text">
+                        @Html.Raw(Model.Content)
+                    </div>
+                </div>
+            </div>
+            <!--SideBar-->
+            @*             <div class="col-lg-4">
+            <div class="sidebar-wrap">
+            <div class="sidebar-widget mb-4">
+
+            </div>
+            <div class="sidebar-widget mb-4">
+
+            </div>
+            </div>
+            </div> *@
+        </div>
+    </div>
+</section>
+
+<!--Render Latest Recipes-->
+@* @await Component.InvokeAsync("LatestRecipes")
+ *@

@@ -1,0 +1,545 @@
+﻿@model List<BlogPost>
+
+@{
+    ViewData["Title"] = "Easy Recipes - Cooking Made Easy!";
+    int counter = 0;
+    int categoryCounter = 0;
+}
+
+<!--Hero Section-->
+<section class="hero-section mb-5 p-0">
+
+    <div class="col-lg-12 mb-5 blog-banner-container position-relative">
+        <img src="~/img/Backgrounds/h3-img-37.jpg" alt="blog-banner" class="img-fluid blog-banner" />
+        <div class="banner-text">
+            <h1 class="fw-bold">Delicious & organic is the way to go</h1>
+            <p class="banner-description catamaran-light">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce justo ante, condimentum sit amet ipsum nec, mattis hendrerit libero. Donec mattis finibus posuere.
+            </p>
+            <a asp-controller="Home" asp-action="AllRecipes" class="btn btn-dark rounded-0 catamaran-regular">Explore Recipes <i class="fas fa-arrow-alt-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            @foreach (BlogPost post in Model.SkipWhile(p => p.IsFeatured == true).Take(3))
+            {
+                <div class="col-lg-4">
+                    <div class="featured-post-item">
+                        <div class="featured-post-img-wrapper featured-post-img">
+                            @if (post.ImageData is not null)
+                            {
+                                <a asp-controller="Home" asp-action="Post" asp-route-ID="@post.PostID">
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData)"
+                                         alt="Recipe"
+                                         class="img-fluid" loading="lazy" />
+                                </a>
+                            }
+                        </div>
+                        <div class="featured-post-content pt-3">
+                            <h2 class="merriweather-regular post-title">
+                                @post.Title
+                            </h2>
+                            <p class="catamaran-light post-description ellipsis">@post.Description</p>
+                            <div class="post-meta">
+                                <div class="d-flex gap-2 align-items-center">
+                                    <img src="~/img/user.png" width="40" class="post-author-image" />
+                                    <div class="post-author">
+                                        <p class="text-black m-0">@post.AuthorName</p>
+                                        <p class="text-secondary m-0 post-date">@post.Date.ToString("d MMMM, yyyy")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!--NewsLetter-->
+<section class="newsletter mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="newsletter-wrap d-flex gap-4 align-items-center justify-content-center overflow-hidden position-relative">
+                    <div class="newsletter-content w-25">
+                        <h2 class="title fw-bold fs-4">
+                            Subscribe to Get Food Recipes Daily?
+                        </h2>
+                    </div>
+                    <div class="newsletter-form">
+                        <form asp-controller="Home" asp-action="Subscribe" method="post" class="d-flex gap-2">
+                            <div class="form-group">
+                                <input type="text"
+                                       placeholder="Name"
+                                       class="form-control focus-ring-none p-2 rounded-0" name="Name" />
+                            </div>
+                            <div class="form-group">
+                                <input type="email"
+                                       placeholder="E-mail"
+                                       class="form-control focus-ring-none p-2 rounded-0" name="Email" />
+                            </div>
+                            <button type="submit"
+                                    class="button btn-dark pt-1 pb-1 ps-4 pe-4 z-1 fw-semibold rounded-0">
+                                Subscribe
+                            </button>
+                            @if (ViewBag.SubscriptionError is not null)
+                            {
+                                foreach (var err in ViewBag.SubscriptionError)
+                                {
+                                    <p>@(err)</p>
+                                }
+                            }
+                        </form>
+                     @*    @await Html.PartialAsync("_SubscriberPartial") *@
+                    </div>
+                    <div class="newsletter-image-corners">
+                        <img src="/img/gallery/newsletter_shape01.png"
+                             class="img-fluid position-absolute bottom-0 start-0"
+                             alt="decoration image" />
+                        <img src="/img/gallery/newsletter_shape02.png"
+                             class="img-fluid position-absolute top-0 end-0"
+                             alt="decoration image" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Featured Recipes-->
+<section class="featured-recipes mb-2">
+    <div class="container">
+        <div class="row gap-5">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="section-title-wrap mb-3 d-flex align-items-center justify-content-between gap-2">
+                        <div class="section-title">
+                            <h2 class="title-featured fw-bold fs-4 text-black">
+                                <span>Explore Featured Recipes &#127850;</span>
+                            </h2>
+                            <p class="text-secondary fw-light m-0 p-0">Appetizing modern recipes for daily meals & more</p>
+                        </div>
+                        <div class="view-all-btn button">
+                            <a href="blog.html" class="link-btn btn btn-warning rounded-0 catamaran-regular">View More <i class="fas fa-arrow-alt-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="latest-posts-wrap">
+                        <div class="row">
+
+                            <div class="col-lg-3">
+                                <div class="latest-post-wrap">
+
+                                    @foreach (BlogPost post in Model.Where(p => p.IsFeatured == true).Skip(counter).Take(2))
+                                    {
+                                        <!--Post Start-->
+                                        <div class="featured-post-item latest-post-item small-post pb-5">
+                                            <div class="featured-post-thumb">
+                                                @if (post.ImageData is not null)
+                                                {
+                                                    <a asp-controller="Home" asp-action="Post" asp-route-id="@(post.PostID)">
+                                                        <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData)"
+                                                             alt="image"
+                                                             class="img-fluid"
+                                                             loading="lazy" />
+                                                    </a>
+                                                }
+                                            </div>
+                                            <div class="post-category d-flex align-items-center gap-2 pt-3">
+                                                <p class="catamaran-light"><i style="color: #d84" class="fas fa-cheese"></i> @post.Categories.ToList().FirstOrDefault()?.CategoryName</p>
+                                                <p class="catamaran-light"><i style="color: #d84" class="far fa-clock"></i> 20 mins</p>
+                                            </div>
+                                            <div class="featured-post-content">
+                                                <h2 class="post-title fs-5 fw-semibold">
+                                                    <a asp-controller="Home" asp-action="Post" asp-route-ID="@post.PostID"
+                                                       class="text-decoration-none text-teal">
+                                                        @post.Title
+                                                    </a>
+                                                </h2>
+                                                <div class="blog-post-meta">
+                                                    <div class="d-flex gap-3 align-items-center">
+                                                        <img src="~/img/user.png" width="40" class="post-author-image" />
+                                                        <div class="post-author">
+                                                            <p class="text-black m-0">@post.AuthorName</p>
+                                                            <p class="text-secondary m-0 post-date">@post.Date.ToString("d MMMM, yyyy")</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Post End-->
+                                        counter++;
+                                    }
+                                </div>
+                            </div>
+
+                            @{
+                                BlogPost? middlePost = Model.Where(p => p.IsFeatured == true).Skip(counter).FirstOrDefault();
+
+                                if (middlePost is not null)
+                                {
+                                    <div class="col-lg-6">
+                                        <div class="featured-post-thumb">
+                                            @if (middlePost.ImageData is not null)
+                                            {
+                                                <a asp-controller="Home" asp-action="Post" asp-route-ID="@middlePost.PostID">
+                                                    <img src="data:image/png;base64,@Convert.ToBase64String(middlePost.ImageData!)"
+                                                         alt="Recipe"
+                                                         class="featured-main img-fluid"
+                                                         loading="lazy" />
+                                                </a>
+                                            }
+                                        </div>
+                                        <div class="featured-post-content bg-beige p-5">
+                                            <h2 class="post-title fs-4 fw-semibold pt-3 w-75">
+                                                <a href="blog-details.html"
+                                                   class="text-decoration-none fs-4 text-black">
+                                                    @middlePost.Title
+                                                </a>
+                                            </h2>
+                                            <p class="catamaran-light pt-2">
+                                                @middlePost.Description
+                                            </p>
+                                            <div class="post-category d-flex align-items-center gap-2 pt-3">
+                                                <p class="catamaran-light"><i style="color: #d84" class="fas fa-cheese"></i> @middlePost.Categories.ToList().FirstOrDefault()?.CategoryName</p>
+                                                <p class="catamaran-light"><i style="color: #d84" class="far fa-clock"></i> 10 mins</p>
+                                            </div>
+                                            <div class="blog-post-meta">
+                                                <div class="d-flex gap-3 align-items-center">
+                                                    <img src="~/img/user.png" width="40" class="post-author-image" />
+                                                    <div class="post-author">
+                                                        <p class="text-black m-0">@middlePost.AuthorName</p>
+                                                        <p class="text-secondary m-0 post-date">@middlePost.Date.ToString("dd MMMM, yyyy")</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+                                counter++;
+                            }
+
+                            <div class="col-lg-3">
+                                <div class="latest-post-wrap">
+                                    @foreach (BlogPost post in Model.Where(p => p.IsFeatured == true).Skip(counter).Take(2))
+                                    {
+
+                                        <div class="featured-post-item latest-post-item small-post pb-5">
+                                            <div class="featured-post-thumb">
+                                                @if (post.ImageData is not null)
+                                                {
+                                                    <a asp-controller="Home" asp-action="Post" asp-route-id="@(post.PostID)">
+                                                        <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData)"
+                                                             alt="image"
+                                                             class="img-fluid"
+                                                             loading="lazy" />
+                                                    </a>
+                                                }
+                                            </div>
+                                            <div class="post-category d-flex align-items-center gap-2 pt-3">
+                                                <p class="catamaran-light"><i style="color: #d84" class="fas fa-cheese"></i> @post.Categories.ToList().FirstOrDefault()?.CategoryName</p>
+                                                <p class="catamaran-light"><i style="color: #d84" class="far fa-clock"></i> 15 mins</p>
+                                            </div>
+                                            <div class="featured-post-content">
+                                                <h2 class="post-title fs-5 fw-semibold">
+                                                    <a href="blog-details.html"
+                                                       class="text-decoration-none text-teal">
+                                                        @post.Title
+                                                    </a>
+                                                </h2>
+                                                <div class="blog-post-meta">
+                                                    <div class="d-flex gap-3 align-items-center">
+                                                        <img src="~/img/user.png" width="40" class="post-author-image" />
+                                                        <div class="post-author">
+                                                            <p class="text-black m-0">@post.AuthorName</p>
+                                                            <p class="text-secondary m-0 post-date">@post.Date.ToString("dd MMMM, yyyy")</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Categories-->
+<section class="categories-area mb-5 mt-0 pt-0 position-relative z-1 container">
+    <div class="container-fluid bg-teal p-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="section-title section-title-two text-center mb-3">
+                    <h2 class="category-title fw-bold text-teal position-relative mb-2 pb-3">
+                        Our Top Categories
+                    </h2>
+                    <p class="catamaran-regular text-center pt-4 pb-4 w-75 m-auto">
+                        Browned butter and brown sugar caramelly goodness, crispy
+                        edges thick and soft centers and melty little puddles
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="categories-item-wrap pt-3">
+            <div class="row justify-content-center">
+                @foreach (Category cat in ViewBag.Categories)
+                {
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
+                        <div class="categories-item">
+                            <div class="categories-img">
+                                @switch (categoryCounter)
+                                {
+                                    case 0:
+                                        <a href="blog.html">
+                                            <img src="/img/meals/categories_img01.png"
+                                                 alt="category"
+                                                 class="img-fluid" />
+                                        </a>
+                                        break;
+
+                                    case 1:
+                                        <a href="blog.html">
+                                            <img src="/img/meals/categories_img02.png"
+                                                 alt="category"
+                                                 class="img-fluid" />
+                                        </a>
+                                        break;
+                                    case 2:
+                                        <a href="blog.html">
+                                            <img src="/img/meals/categories_img03.png"
+                                                 alt="category"
+                                                 class="img-fluid" />
+                                        </a>
+                                        break;
+                                    case 3:
+                                        <a href="blog.html">
+                                            <img src="/img/meals/categories_img04.png"
+                                                 alt="category"
+                                                 class="img-fluid" />
+                                        </a>
+                                        break;
+                                    case 4:
+                                        <a href="blog.html">
+                                            <img src="/img/meals/categories_img05.png"
+                                                 alt="category"
+                                                 class="img-fluid" />
+                                        </a>
+                                        break;
+                                    case 5:
+                                        <a href="blog.html">
+                                            <img src="/img/meals/categories_img06.png"
+                                                 alt="category"
+                                                 class="img-fluid" />
+                                        </a>
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                            </div>
+                            <div class="categories-content">
+                                <a href="blog.html">@(cat.CategoryName)</a>
+                            </div>
+                        </div>
+                    </div>
+                    categoryCounter++;
+                }
+            </div>
+        </div>
+    </div>
+    <div class="categories-shape-wrap z-0">
+        <img src="~/img/meals/categories_shape01.png"
+             alt="shape"
+             class="img-fluid position-absolute top-0" />
+    </div>
+</section>
+
+<!--Most Viewed Recipes Container-->
+<section class="recipe-area mb-5 pt-3 pb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title-wrap mb-3 d-flex align-items-center justify-content-center gap-4">
+                    <div class="section-title text-center">
+                        <h2 class="title-most-viewed position-relative fw-bold fs-4 text-black m-0">
+                            <span class=" highlight-container"><span class="highlight">Top Viewed Recipes</span></span>
+                        </h2>
+                        <p class="text-secondary fw-light m-0 p-0">Appetizing modern recipes for daily meals & more..</p>
+                    </div>
+                    <div class="section-title-line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (BlogPost post in ViewBag.MostViewedPosts)
+            {
+
+                <div class="col-xl-3">
+                    <div class="ta-overlay-post position-relative">
+                        <div class="overlay-post-thumb position-relative overflow-hidden">
+                            @if (post.ImageData is not null)
+                            {
+                                <a asp-controller="Home" asp-action="Post" asp-route-ID="@post.PostID">
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData)"
+                                         alt="Recipe"
+                                         class="most-viewed-post-img img-fluid rounded" />
+                                </a>
+                            }
+                        </div>
+                        <div class="overlay-post-content position-absolute bottom-0 p-4">
+                            <a href="blog.html" class="post-tag">@post.Categories.ToList().FirstOrDefault()?.CategoryName</a>
+                            <h6 class="most-viewed-post-title">
+                                <a href="blog-details.html"
+                                   class="text-decoration-none fw-bold text-white">@post.Title</a>
+                            </h6>
+                            <div class="blog-post-meta">
+                                <ul class="list-wrap d-flex align-items-center gap-2 list-unstyled">
+                                    <li class="text-white catamaran-light">
+                                        <i class="flaticon-calendar catamaran-light"></i>@post.Date.ToString("d MMMM, yyyy")
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!--CookBook Section-->
+<section class="cook-book container mb-5">
+    <div class="cook-book-wrapper">
+        <div class="row">
+            <div class="col-12">
+                <div class="cook-book-content d-flex align-items-center justify-content-around">
+                    <div class="cook-book-image">
+                        <img src="~/img/gallery/CookBook.png" class="img-fluid" alt="cook-book" loading="lazy" />
+                    </div>
+                    <div class="cook-book-meta">
+                        <h3>Our latest recipe book is out now!</h3>
+                        <p class="catamaran-light">Enter your email to receive our cook book right now.</p>
+                        <div class="book-download">
+                            <a href="https://www.family-action.org.uk/content/uploads/2019/07/meals-more-recipes.pdf" class="btn btn-warning rounded-0"
+                               target="_blank">Download PDF</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Separator-->
+<div class="separator-line container"></div>
+
+<!--Latest Recipes-->
+<section class="recent-section mb-2 pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="section-title-wrap mb-3 d-flex align-items-center justify-content-between gap-2">
+                <div class="section-title">
+                    <h2 class="title-latest fw-bold fs-4 text-black">
+                        Explore Latest Recipes &#127850;
+                    </h2>
+                    <p class="text-secondary fw-light m-0 p-0">Find latest declicious recipes that are easy to make...</p>
+                </div>
+                <div class="view-all-btn button">
+                    <a asp-controller="Home" asp-action="AllRecipes" class="link-btn btn btn-warning rounded-0 catamaran-regular">View More <i class="fas fa-arrow-alt-circle-right"></i></a>
+                </div>
+            </div>
+            @foreach (BlogPost post in Model.Where(p => p.IsFeatured == false).Take(8))
+            {
+                <div class="col-lg-3 pb-4">
+                    <div class="featured-post-item">
+                        <div class="featured-post-img-wrapper featured-post-img">
+                            @if (post.ImageData is not null)
+                            {
+                                <a asp-controller="Home" asp-action="Post" asp-route-ID="@post.PostID">
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData)"
+                                         alt="Recipe"
+                                         class="img-fluid" loading="lazy" />
+                                </a>
+                            }
+                        </div>
+                        <div class="featured-post-content pt-2">
+                            <div class="post-category d-flex align-items-center gap-2">
+                                <p class="catamaran-light m-0"><i style="color: #d84" class="fas fa-cheese"></i> @post.Categories.ToList().FirstOrDefault()?.CategoryName</p>
+                                <p class="catamaran-light m-0"><i style="color: #d84" class="far fa-clock"></i> 20 mins</p>
+                            </div>
+                            <h4 class="merriweather-regular post-title fs-6 fw-bold m-0 pt-2">
+                                @post.Title
+                            </h4>
+                            <p class="catamaran-light post-description ellipsis">@post.Description</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!--Brands-->
+<section class="brands mb-5 p-4">
+    <div class="container">
+        <div class="row">
+            <div class="brands-wrap d-flex justify-content-center gap-5">
+                <img src="~/img/logos/h1-clients-img-1.png" class="img-fluid brand-img" />
+                <img src="~/img/logos/h1-clients-img-2a.png" class="img-fluid brand-img" />
+                <img src="~/img/logos/h1-clients-img-3a.png" class="img-fluid brand-img" />
+                <img src="~/img/logos/h1-clients-img-4a.png" class="img-fluid brand-img" />
+                <img src="~/img/logos/h1-clients-img-5a.png" class="img-fluid brand-img" />
+                <img src="~/img/logos/h1-clients-img-6a.png" class="img-fluid brand-img" />
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--Youtube-->
+<section class="youtube-area mb-5 mt-0 pt-0 position-relative z-1 container">
+    <div class="container-fluid bg-teal p-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="section-title section-title-two text-center mb-3">
+                    <h2 class="fw-bold text-teal position-relative mb-2 pb-2">
+                        New Recipes Every Friday
+                    </h2>
+                    <p class="catamaran-regular text-center pt-1 pb-1 w-75 m-auto">
+                        Browned butter and brown sugar caramelly goodness, crispy
+                        edges thick and soft centers and melty little puddles...
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="youtube-item-wrap pt-3">
+            <div class="row justify-content-center">
+
+                <div class="col-6 video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/kfuRxCHfMoM?si=Qsu7dcCWw01E72SP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="col-6 video-wrapper">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Ff6dL3ouchY?si=0bN3hMLmfcjpC-LA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="shape-wrap">
+        <img src="~/img/meals/categories_shape01.png"
+             alt="shape"
+             class="img-fluid position-absolute top-0" />
+    </div>
+</section>
+
+

@@ -1,0 +1,58 @@
+﻿@model Category
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Add Category";
+}
+
+<form asp-action="AddCategory" asp-controller="Admin" method="post">
+    <!-- Row start -->
+    <div class="row">
+        <div class="col-xxl-12 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Row start -->
+                    <div class="row p-5">
+                        <div class="col-xxl-12 col-sm-8 col-12">
+                            <label asp-for="CategoryName">Category Name</label>
+                            <div class="input-group mb-3 d-flex flex-column">
+                                <input asp-for="CategoryName"
+                                       class="form-control w-100"
+                                       aria-label="Default"
+                                       aria-describedby="inputGroup-sizing-default" />
+                                <span asp-validation-for="CategoryName" class="text-red"></span>
+                            </div>
+
+                            <label asp-for="CategorySlug">Category Slug</label>
+                            <div class="input-group mb-3 d-flex flex-column">
+                                <input asp-for="CategorySlug" class="form-control w-100"
+                                       aria-label="Default"
+                                       aria-describedby="inputGroup-sizing-default" />
+                                <span asp-validation-for="CategorySlug" class="text-red"></span>
+                            </div>
+                            <label asp-for="CategoryDescription">Category Description</label>
+                            <div class="input-group mb-3 d-flex flex-column">
+                                <input asp-for="CategoryDescription"
+                                       class="form-control w-100"
+                                       aria-label="Default"
+                                       aria-describedby="inputGroup-sizing-default" />
+                                <span asp-validation-for="CategoryDescription" class="text-red"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                Add Category
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Row end -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Row end -->
+</form>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

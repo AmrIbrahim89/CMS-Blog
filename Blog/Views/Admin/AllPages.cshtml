@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Page>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Pages";
+}
+
+<form asp-controller="Admin" asp-action="AllPages" method="get">
+
+    <!-- Row start -->
+    <div class="row">
+        <div class="col-xxl-12 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Row start -->
+                    <div class="row">
+                        <div class="container table-responsive py-5">
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Page</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (Page page in Model)
+                                    {
+                                        <input type="hidden" class="page-id" value="@(page.PageID)">
+                                        <tr>
+                                            <td scope="row">@String.Join("", page.PageID.ToString()!.Take(3))</td>
+                                            <td>@(page.Title)</td>
+                                            <td>
+                                                <a asp-controller="Home" asp-action="Page" asp-route-ID="@(page.PageID)" class="btn btn-primary">View</a>
+                                                <a asp-controller="Admin" asp-action="DeletePage" asp-route-ID="@(page.PageID)" class="btn btn-danger">Delete</a>
+                                                <a class="btn btn-warning add-page-to-menu" data-page-id="@(page.PageID)">Add to main menu</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Row end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

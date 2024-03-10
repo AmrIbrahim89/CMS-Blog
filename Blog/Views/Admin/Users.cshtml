@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Users";
+}
+
+<form asp-controller="Admin" asp-action="Users" method="get">
+
+    <!-- Row start -->
+    <div class="row">
+        <div class="col-xxl-12 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Row start -->
+                    <div class="row">
+                        <div class="container table-responsive py-5">
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">User Image</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (ApplicationUser user in Model)
+                                    {
+                                        <tr>
+                                            <td scope="row">@String.Join("", user.Id.ToString().Take(3))</td>
+                                            <td>
+                                                <img src="~/img/user.png" alt="user-image"
+                                                     class="img-fluid"
+                                                     width="50" />
+                                            </td>
+                                            <td>@user.FirstName</td>
+                                            <td>@user.LastName</td>
+                                            <td>@user.Email</td>
+                                            <td>
+                                                <a asp-controller="Admin" asp-action="UpdateUser" asp-route-ID="@user.Id" class="btn btn-primary">Edit</a>
+                                                <a asp-controller="Admin" asp-action="DeleteUser" asp-route-ID="@user.Id" class="btn btn-danger">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Row end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

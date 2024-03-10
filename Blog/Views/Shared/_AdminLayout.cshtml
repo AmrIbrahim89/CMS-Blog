@@ -1,0 +1,330 @@
+﻿@inject UserManager<ApplicationUser> UserManager
+@{
+    ApplicationUser? currentUser = await UserManager.GetUserAsync(User);
+    List<string> CurrentUserRoles;
+
+    if (currentUser is not null)
+    {
+        CurrentUserRoles = (List<string>)await UserManager.GetRolesAsync(currentUser);
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--Meta-->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--desktop favicon-->
+    <link rel="icon" href="img/logos/fav-icon.png" asp-append-version="true" />
+    <!--android favicon-->
+    @*     <link rel="manifest" href="manifest.webmanifest" /> *@
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+          rel="stylesheet" />
+    <!--Title-->
+
+    <title>@ViewBag.Title</title>
+
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!--Font Awesome-->
+    <link href="~/FontAwesome/css/fontawesome.css" rel="stylesheet">
+
+    <!--Main CSS-->
+    @*     <link href="~/FontWwesome/css/brands.css" rel="stylesheet"> *@
+    <link href="~/FontAwesome/css/solid.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/AdminStyle.css" asp-append-version="true" />
+
+    <!--TinyMce Text Editor-->
+    <script src="https://cdn.tiny.cloud/1/extngljoqna7vu79x3vp1zp6h5weubno1nm2cy6ccztlt1r8/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+<body>
+    <!-- Page wrapper start -->
+    <div class="page-wrapper">
+        <!-- Sidebar wrapper start -->
+        <nav class="sidebar-wrapper">
+            <!-- Sidebar brand starts -->
+            <div class="sidebar-brand">
+                <a asp-controller="Admin" asp-action="Index" class="logo">
+                    <h3 class="m-0 p-0 fs-4 text-secondary">Admin Dashboard</h3>
+                </a>
+            </div>
+            <!-- Sidebar brand starts -->
+            <!-- Sidebar menu starts -->
+            <div class="sidebar-menu">
+                <div class="sidebarMenuScroll">
+                    <ul>
+                        <li class="sidebar-dropdown active">
+                            <a asp-controller="Admin" asp-action="Index">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span class="menu-text">Home</span>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="accordion accordion-flush"
+                                 id="accordionPanelsStayOpen">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                        <button class="accordion-button"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#panelsStayOpen-collapseOne"
+                                                aria-expanded="true"
+                                                aria-controls="panelsStayOpen-collapseOne">
+                                            <i class="fas fa-pen"></i>
+                                            Blogs
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseOne"
+                                         class="accordion-collapse collapse show"
+                                         aria-labelledby="panelsStayOpen-headingOne">
+                                        <div class="accordion-body">
+                                            <ul>
+                                                <li><a asp-controller="Admin" asp-action="AllPosts" class="menu-item">All Posts</a></li>
+                                                <li><a asp-controller="Admin" asp-action="FeaturedPosts" class="menu-item">Featured Posts</a></li>
+                                                <li><a asp-controller="Admin" asp-action="AddPost" class="menu-item">Add Post</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                        <button class="accordion-button collapsed"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#panelsStayOpen-collapseTwo"
+                                                aria-expanded="false"
+                                                aria-controls="panelsStayOpen-collapseTwo">
+                                            <i class="fas fa-photo-video"></i>
+                                            Media
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseTwo"
+                                         class="accordion-collapse collapse"
+                                         aria-labelledby="panelsStayOpen-headingTwo">
+                                        <div class="accordion-body">
+                                            <ul>
+                                                <li><a asp-controller="Admin" asp-action="AllMedia" class="menu-item">All Media</a></li>
+                                                <li><a asp-controller="Admin" asp-action="UploadMedia" class="menu-item">Upload</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header"
+                                        id="panelsStayOpen-headingThree">
+                                        <button class="accordion-button collapsed"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#panelsStayOpen-collapseThree"
+                                                aria-expanded="false"
+                                                aria-controls="panelsStayOpen-collapseThree">
+                                            <i class="fas fa-project-diagram"></i>
+                                            Categories
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseThree"
+                                         class="accordion-collapse collapse"
+                                         aria-labelledby="panelsStayOpen-headingThree">
+                                        <div class="accordion-body">
+                                            <ul>
+                                                <li><a asp-controller="Admin" asp-action="AllCategories" class="menu-item">All Categories</a></li>
+                                                <li><a asp-controller="Admin" asp-action="AddCategory" class="menu-item">Add Category</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header"
+                                        id="panelsStayOpen-headingFour">
+                                        <button class="accordion-button collapsed"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#panelsStayOpen-collapseFour"
+                                                aria-expanded="false"
+                                                aria-controls="panelsStayOpen-collapseFour">
+                                            <i class="fas fa-user"></i>
+                                            Users
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseFour"
+                                         class="accordion-collapse collapse"
+                                         aria-labelledby="panelsStayOpen-headingFour">
+                                        <div class="accordion-body">
+                                            <ul>
+                                                <li><a asp-controller="Admin" asp-action="Users" class="menu-item">All Users</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header"
+                                        id="panelsStayOpen-headingFive">
+                                        <button class="accordion-button collapsed"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#panelsStayOpen-collapseFive"
+                                                aria-expanded="false"
+                                                aria-controls="panelsStayOpen-collapseFive">
+                                            <i class="fas fa-file-alt"></i>
+                                            Pages
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseFive"
+                                         class="accordion-collapse collapse"
+                                         aria-labelledby="panelsStayOpen-headingFive">
+                                        <div class="accordion-body">
+                                            <ul>
+                                                <li><a asp-controller="Admin" asp-action="AllPages" class="menu-item">All Pages</a></li>
+                                                <li><a asp-controller="Admin" asp-action="AddPage" class="menu-item">Add Page</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header"
+                                        id="panelsStayOpen-headingSix">
+                                        <button class="accordion-button collapsed"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#panelsStayOpen-collapseSix"
+                                                aria-expanded="false"
+                                                aria-controls="panelsStayOpen-collapseSix">
+                                            <i class="fas fa-file-alt"></i>
+                                            Menues
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseSix"
+                                         class="accordion-collapse collapse"
+                                         aria-labelledby="panelsStayOpen-headingSix">
+                                        <div class="accordion-body">
+                                            <ul>
+                                                <li><a asp-controller="Admin" asp-action="AllMenues" class="menu-item">All Menues</a></li>
+                                                <li><a asp-controller="Admin" asp-action="AddMenu" class="menu-item">Add Menu</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center gap-2 pt-4">
+                                    <a class="btn btn-primary text-white" asp-controller="Home" asp-action="Index">Home</a>
+                                    <a class="btn btn-danger text-white" asp-controller="Account" asp-action="Logout">Logout</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Sidebar menu ends -->
+        </nav>
+        <!-- Sidebar wrapper end -->
+        <!-- Main container start -->
+        <div class="main-container">
+            <!-- Page header starts -->
+            <div class="page-header">
+                <!-- Header actions ccontainer start -->
+                <div class="header-actions-container">
+                    <!-- Search container start -->
+                    <div class="search-container">
+                        <!-- Search input group start -->
+                        <form class="d-flex gap-0" role="search" asp-controller="Home" asp-action="Search" method="get">
+                            <input class="form-control rounded-0 main-search-bar catamaran-regular"
+                                   type="search"
+                                   placeholder="Search..."
+                                   aria-label="Search"
+                                   name="searchString"
+                                   id="searchBox" />
+                            <button title="button" class="btn btn-dark rounded-0"
+                                    type="submit">
+                                <i class="fas fa-search text-white m-0"></i>
+                            </button>
+                        </form>
+
+                        <!-- Search input group end -->
+                    </div>
+                    <!-- Search container end -->
+                    <!-- Header actions start -->
+                    <div class="dropdown d-lg-flex align-items-center gap-1">
+                        <!--Header Icons-->
+                        <div class="header-icons-wrapper d-flex">
+                            <!-- Dark Mode -->
+                            <i class="far fa-moon"></i>
+                            <!-- Comments Approval -->
+                            <a asp-controller="Admin" asp-action="Comments"><i class="far fa-comment"></i></a>
+                            <!-- Messages -->
+                            <a asp-controller="Admin" asp-action="Messages">
+                                <i class="far fa-envelope position-relative">
+                                    <span class="message-notification translate-middle badge bg-primary"> 2 </span>
+                                </i>
+                            </a>
+
+                        </div>
+                        <!--Online Container Start-->
+                        <div>
+                            <div class="d-flex gap-1 online-status-wrapper">
+                                <p class="current-user-status fw-bold">online</p>
+                                <div class="online"></div>
+                            </div>
+                            <p class="current-user-name fw-semibold">Hey, @(currentUser?.FirstName + " " + currentUser?.LastName)</p>
+                        </div>
+                        <!--Online Container End-->
+                        <button class="btn dropdown-toggle"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            <span class="avatar">
+                                <img src="~/img/user.png"
+                                     alt="Admin Templates"
+                                     class="img-fluid"
+                                     width="40"
+                                     style="border-radius: 50%"
+                                     asp-append-version="true" />
+                                <span class="status online"></span>
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="Profile">Profile</a></li>
+                            <li>
+                                <a asp-controller="Account" asp-action="Logout" class="dropdown-item">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Header actions end -->
+                </div>
+                <!-- Header actions ccontainer end -->
+            </div>
+            <!-- Page header ends -->
+            <!-- Content wrapper scroll start -->
+            <div class="content-wrapper-scroll">
+                <!-- Content wrapper start -->
+                <div class="content-wrapper">
+                    <main role="main" class="container-fluid px-0">
+                        @RenderBody()
+                    </main>
+                </div>
+                <!-- Content wrapper end -->
+                <!-- App Footer start -->
+                <div class="footer">
+                    <span class="text-black copyright">© EasyMeal - 2024</span>
+                </div>
+                <!-- App footer end -->
+            </div>
+            <!-- Content wrapper scroll end -->
+        </div>
+        <!-- Main container end -->
+    </div>
+    <!-- Page wrapper end -->
+    <!--Necessary Scripts-->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/0e62713baa.js"
+            crossorigin="anonymous"></script>
+    <script src="~/js/script.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

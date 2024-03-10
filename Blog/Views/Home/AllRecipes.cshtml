@@ -1,0 +1,92 @@
+﻿<!--Font specific for this view-->
+<style>
+    body {
+        font-family: "Manrope", sans-serif;
+    }
+</style>
+
+@model IEnumerable<BlogPost>
+
+@{
+    ViewBag.Title = "All Recipes";
+}
+
+<section>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-2 mt-5">
+                <h4 class="mb-3">Filter Recipes:</h4>
+                <p class="text-secondary fs-6">What you are looking for?</p>
+
+                    <h5 class="mb-2 mt-2">Filter by Categories</h5>
+                    @foreach (Category category in ViewBag.Categories)
+                    {
+                        <div class="form-check pt-2">
+                            <input class="form-check-input" type="checkbox" name="filterBy" value="@(category.CategoryName)">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                @(category.CategoryName)
+                            </label>
+                        </div>
+                    }
+
+                    <h5 class="mb-2 mt-5">Filter by Date</h5>
+                    <div class="form-check pt-2">
+                        <input class="form-check-input" type="checkbox" name="newer" value="most recent">
+                        <label class="form-check-label" for="flexCheckDefault">
+                             Most Recent
+                        </label>
+                    </div>
+                    <div class="form-check pt-2">
+                        <input class="form-check-input" type="checkbox" name="older" value="older posts" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Older Posts
+                        </label>
+                    </div>
+
+                    <button class="btn btn-dark fw-semibold text-white rounded-0 mt-4"
+                            id="applyFilter"
+                            type="submit">
+                        Filter Results
+                    </button>
+            </div>
+            <div class="col-10">
+                <div class="row" id="add-more-posts">
+                    @foreach (BlogPost post in Model.Take(6))
+                    {
+
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="receipe-post-img mt-5">
+                                @if (post.ImageData is not null)
+                                {
+                                    <a asp-controller="Home" asp-action="Post" asp-route-ID="@post.PostID">
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData)"
+                                             alt="Recipe"
+                                             class="img-fluid rounded receipe-img" />
+                                    </a>
+                                }
+                            </div>
+                            <div class="featured-post-content pt-2">
+                                <h2 class="fs-5 text-teal">
+                                    @post.Title
+                                </h2>
+                                <p class="ellipsis mb-1">@Html.Raw(post.Description)</p>
+                                <div class="post-meta">
+                                    <div class="d-flex gap-3 align-items-center">
+                                        <p class="text-secondary"><i style="color: #d84" class="fas fa-calendar-check"></i> @post.Date.ToString("dd MMMM, yyyy")</p>
+                                        @foreach (Category category in post.Categories!)
+                                        {
+                                            <p class="text-secondary"><i style="color: #d84" class="fas fa-cheese"></i> @category.CategoryName</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="load-more">
+                    <button class="btn text-uppercase rounded-0 load-more-button">Load More..</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

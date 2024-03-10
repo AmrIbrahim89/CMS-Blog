@@ -1,0 +1,218 @@
+﻿@inject UserManager<ApplicationUser> UserManager
+@model ApplicationUser
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Profile";
+
+    ApplicationUser? currentUser = await UserManager.GetUserAsync(User);
+    List<string> CurrentUserRoles;
+
+    if (currentUser is not null)
+    {
+        CurrentUserRoles = (List<string>)await UserManager.GetRolesAsync(currentUser);
+    }
+}
+
+<div class="container">
+    <!-- Page Header -->
+    <div class="d-md-flex d-block align-items-center justify-content-between my-4 mt-0 page-header-breadcrumb">
+        <h4 class="page-title fw-semibold mb-0">Profile Settings</h4>
+    </div>
+    <!-- Page Header Close -->
+    <!--Main Body-->
+    <form asp-controller="Admin" asp-action="Profile" method="post">
+        <div class="row mb-5">
+            <div class="col-xl-12">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="personal-info" role="tabpanel">
+                                <div class="p-sm-3 p-0">
+                                    <h6 class="fw-semibold mb-3 text-black">
+                                        Photo :
+                                    </h6>
+                                    <div class="mb-4 d-sm-flex align-items-center">
+                                        <div class="mb-0 me-5">
+                                            <span class="avatar avatar-xxl avatar-rounded">
+                                                <img src="https://laravelui.spruko.com/ynex/build/assets/images/faces/9.jpg" alt="profile-img" class="profile-img img-fluid" id="profile-img">
+                                            </span>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn btn-primary">Change</button>
+                                            <button class="btn btn-light">Remove</button>
+                                        </div>
+                                    </div>
+                                    <h6 class="fw-semibold mb-3 text-black">
+                                        Profile :
+                                    </h6>
+                                    <div class="gy-4 mb-4 d-flex gap-2">
+                                        <div class="col-xl-6">
+                                            <label for="first-name" class="form-label text-black fw-semibold">First Name</label>
+                                            <input asp-for="FirstName" type="text" class="form-control" id="first-name" placeholder="@currentUser?.FirstName">
+                                            <span asp-validation-for="FirstName" class="text-red"></span>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label for="last-name" class="form-label text-black fw-semibold">Last Name</label>
+                                            <input asp-for="LastName" type="text" class="form-control" id="last-name" placeholder="@currentUser?.LastName">
+                                            <span asp-validation-for="LastName" class="text-red"></span>
+                                        </div>
+                                    </div>
+                                    <h6 class="fw-semibold mb-3 text-black d-flex">
+                                        Personal information :
+                                    </h6>
+                                    <div class="row gy-4 mb-4">
+                                        <div class="col-xl-6">
+                                            <label for="email-address" class="form-label text-black fw-semibold">Email Address :</label>
+                                            <div class="d-flex gap-1">
+                                                <input asp-for="Email" type="text" class="form-control" data-user-email="@(currentUser?.Email)" id="profile-email-address" placeholder="@(currentUser?.Email?.Substring(0,3))@("**********"+currentUser?.Email?.Substring(currentUser.Email.Length - 3))" disabled >
+                                                <button type="button" class="btn btn-secondary reveal-email">Reveal</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label for="Contact-Details" class="form-label text-black fw-semibold">Contact Details :</label>
+                                            <input asp-for="PhoneNumber" type="text" class="form-control" id="Contact-Details" placeholder="@currentUser?.PhoneNumber">
+                                            <span asp-validation-for="PhoneNumber"></span>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <label for="bio" class="form-label text-black fw-semibold">Bio :</label>
+                                            <textarea class="form-control" id="bio" rows="5">Lorem ipsum dolor sit amet consectetur adipisicing elit. At sit impedit, officiis non minima saepe voluptates a magnam enim sequi porro veniam ea suscipit dolorum vel mollitia voluptate iste nemo!</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane p-0" id="security" role="tabpanel">
+                                <ul class="list-group list-group-flush list-unstyled rounded-3">
+                                    <li class="list-group-item">
+                                        <div class="row gx-5 gy-3">
+                                            <div class="col-xl-4">
+                                                <p class="fs-16 mb-1 fw-semibold">Logging In</p>
+                                                <p class="fs-12 mb-0 text-muted">Security settings related to logging into our email account and taking down account if any mischevious action happended.</p>
+                                            </div>
+                                            <div class="col-xl-8">
+                                                <div class="d-sm-flex d-block align-items-top justify-content-between mt-sm-0 mt-3">
+                                                    <div class="mail-security-settings">
+                                                        <p class="fs-14 mb-1 fw-semibold">Max Limit for login attempts</p>
+                                                        <p class="fs-12 mb-0 text-muted">Account will freeze for 24hrs while attempt to login with wrong credentials for selected number of times</p>
+                                                    </div>
+                                                    <div>
+                                                        <div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><div class="choices__inner"><select class="form-control choices__input" data-trigger="" name="max-login-attempts" id="max-login-attempts" hidden="" tabindex="-1" data-choice="active"><option value="Choice 1" data-custom-properties="[object Object]">3 Attempts</option></select><div class="choices__list choices__list--single"><div class="choices__item choices__item--selectable" data-item="" data-id="1" data-value="Choice 1" data-custom-properties="[object Object]" aria-selected="true">3 Attempts</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><input type="text" class="choices__input choices__input--cloned" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="This is a placeholder set in the config" placeholder="Search"><div class="choices__list" role="listbox"><div id="choices--max-login-attempts-item-choice-1" class="choices__item choices__item--choice is-selected choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="Choice 1" data-select-text="Press to select" data-choice-selectable="" aria-selected="true">3 Attempts</div><div id="choices--max-login-attempts-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="Choice 2" data-select-text="Press to select" data-choice-selectable="">5 Attempts</div><div id="choices--max-login-attempts-item-choice-3" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="3" data-value="Choice 3" data-select-text="Press to select" data-choice-selectable="">10 Attempts</div><div id="choices--max-login-attempts-item-choice-4" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="4" data-value="Choice 3" data-select-text="Press to select" data-choice-selectable="">20 Attempts</div></div></div></div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-sm-flex d-block align-items-top justify-content-between mt-3">
+                                                    <div>
+                                                        <p class="fs-14 mb-1 fw-semibold">Account Freeze time management</p>
+                                                        <p class="fs-12 mb-0 text-muted">You can change the time for the account freeze when attempts for </p>
+                                                    </div>
+                                                    <div>
+                                                        <div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><div class="choices__inner"><select class="form-control choices__input" data-trigger="" name="account-freeze-time-format" id="account-freeze-time-format" hidden="" tabindex="-1" data-choice="active"><option value="Choice 1" data-custom-properties="[object Object]">1 Day</option></select><div class="choices__list choices__list--single"><div class="choices__item choices__item--selectable" data-item="" data-id="1" data-value="Choice 1" data-custom-properties="[object Object]" aria-selected="true">1 Day</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><input type="text" class="choices__input choices__input--cloned" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="This is a placeholder set in the config" placeholder="Search"><div class="choices__list" role="listbox"><div id="choices--account-freeze-time-format-item-choice-1" class="choices__item choices__item--choice is-selected choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="Choice 1" data-select-text="Press to select" data-choice-selectable="" aria-selected="true">1 Day</div><div id="choices--account-freeze-time-format-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="Choice 2" data-select-text="Press to select" data-choice-selectable="">1 Hour</div><div id="choices--account-freeze-time-format-item-choice-3" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="3" data-value="Choice 3" data-select-text="Press to select" data-choice-selectable="">1 Month</div><div id="choices--account-freeze-time-format-item-choice-4" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="4" data-value="Choice 3" data-select-text="Press to select" data-choice-selectable="">1 Year</div></div></div></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row gx-5 gy-3">
+                                            <div class="col-xl-4">
+                                                <p class="fs-16 mb-1 fw-semibold">Password Requirements</p>
+                                                <p class="fs-12 mb-0 text-muted">Security settings related to password strength.</p>
+                                            </div>
+                                            <div class="col-xl-8">
+                                                <div class="d-sm-flex d-block align-items-top justify-content-between mt-sm-0 mt-3 gap-3">
+                                                    <div class="mail-security-settings">
+                                                        <p class="fs-14 mb-1 fw-semibold">Minimum number of characters in the password</p>
+                                                        <p class="fs-12 mb-0 text-muted">There should be a minimum number of characters for a password to be validated that shouls be set here.</p>
+                                                    </div>
+                                                    <div>
+                                                        <input type="text" class="form-control" value="8">
+                                                    </div>
+                                                </div>
+                                                <div class="d-sm-flex d-block align-items-top justify-content-between mt-3">
+                                                    <div>
+                                                        <p class="fs-14 mb-1 fw-semibold">Contain A Number</p>
+                                                        <p class="fs-12 mb-0 text-muted">Password should contain a number.</p>
+                                                    </div>
+                                                    <div>
+                                                        <div class="custom-toggle-switch float-sm-end">
+                                                            <input id="password-number" name="toggleswitchsize" type="checkbox">
+                                                            <label for="password-number" class="label-success mb-1"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-sm-flex d-block align-items-top justify-content-between mt-3">
+                                                    <div>
+                                                        <p class="fs-14 mb-1 fw-semibold">Contain A Special Character</p>
+                                                        <p class="fs-12 mb-0 text-muted">Password should contain a special Character.</p>
+                                                    </div>
+                                                    <div>
+                                                        <div class="custom-toggle-switch float-sm-end">
+                                                            <input id="password-special-character" name="toggleswitchsize" type="checkbox" checked="">
+                                                            <label for="password-special-character" class="label-success mb-1"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-sm-flex d-block align-items-top justify-content-between mt-3">
+                                                    <div>
+                                                        <p class="fs-14 mb-1 fw-semibold">Atleast One Capital Letter</p>
+                                                        <p class="fs-12 mb-0 text-muted">Password should contain atleast one capital letter.</p>
+                                                    </div>
+                                                    <div>
+                                                        <div class="custom-toggle-switch float-sm-end">
+                                                            <input id="password-capital" name="toggleswitchsize" type="checkbox" checked="">
+                                                            <label for="password-capital" class="label-success mb-1"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-sm-flex d-block align-items-top justify-content-between mt-3">
+                                                    <div>
+                                                        <p class="fs-14 mb-1 fw-semibold">Maximum Password Length</p>
+                                                        <p class="fs-12 mb-0 text-muted">Maximum password lenth should be selected here.</p>
+                                                    </div>
+                                                    <div>
+                                                        <input type="text" class="form-control" value="16">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row gx-5 gy-3">
+                                            <div class="col-xl-4">
+                                                <p class="fs-16 mb-1 fw-semibold">Unknown Chats</p>
+                                                <p class="fs-12 mb-0 text-muted">Security settings related to unknown chats.</p>
+                                            </div>
+                                            <div class="col-xl-8">
+                                                <div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="unknown-messages" id="unknown-messages-show1">
+                                                        <label class="form-check-label" for="unknown-messages-show1">
+                                                            Show
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="unknown-messages" id="unknown-messages-hide2" checked="">
+                                                        <label class="form-check-label" for="unknown-messages-hide2">
+                                                            Hide
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="float-end">
+                            <button class="btn btn-primary m-1" type="submit">
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--End Main Body-->
+</div>

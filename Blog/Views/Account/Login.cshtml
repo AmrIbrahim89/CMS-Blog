@@ -1,0 +1,37 @@
+﻿@model LoginDTO;
+
+@{
+    Layout = "~/Views/Shared/_LoginAndRegisterLayout.cshtml";
+    ViewBag.Title = "Login";
+}
+
+<div class="login-container">
+    <form class="login-form" asp-action="Login" asp-controller="Account" asp-route-ReturnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
+        <h1 class="manrope-regular">Welcome Back</h1>
+        <p class="manrope-regular">Please login to your account</p>
+        <div class="login-input-group">
+            <input asp-for="Email" type="email" placeholder="Username" required>
+            <span asp-validation-for="Email" class="text-red"></span>
+        </div>
+        <div class="login-input-group">
+            <input asp-for="Password" placeholder="Password" required>
+            <span asp-validation-for="Password" class="text-red"></span>
+        </div>
+        <button class="btn login-btn" type="submit">Login</button>
+        <div class="bottom-text">
+            <p class="manrope-regular">Don't have an account? <a asp-controller="Account" asp-action="Register">Sign Up</a></p>
+            <p class="manrope-regular"><a href="#">Forgot password?</a></p>
+        </div>
+        @if (ViewBag.Errors != null)
+        {
+            <div class="text-red ml">
+                <ul>
+                    @foreach (string error in ViewBag.Errors)
+                    {
+                        <li class="ml">@error</li>
+                    }
+                </ul>
+            </div>
+        }
+    </form>
+</div>

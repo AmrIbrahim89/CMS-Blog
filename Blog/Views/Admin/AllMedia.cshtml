@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Media>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "All Media";
+}
+
+<form asp-action="DeleteMedia" asp-controller="Admin" method="get">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex gap-2 flex-wrap p-2">
+                @foreach (Media media in Model)
+                {
+                    <div class="media-thumb mb-3">
+                        <a asp-controller="Helper" asp-action="Uploads">
+                            <img src="data:image/png;base64,@Convert.ToBase64String(media.Image!)"
+                                 alt="Media"
+                                 class="img-fluid" />
+                        </a>
+                        <div>
+                            <p class="fs-6 text-black fw-semibold">@media.ImageName</p>
+                            <a asp-controller="Admin" asp-action="DeleteMedia" asp-route-ID="@media.ID" class="btn btn-danger">Remove</a>
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,254 @@
+﻿<!--Font specific for this view-->
+<style>
+    body {
+        font-family: "Manrope", sans-serif;
+    }
+</style>
+
+@model BlogPost
+
+@{
+    ViewBag.Title = $"Recipe - {Model.Title}";
+    int categoryCounter = 0;
+}
+
+<section class="recipe pt-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <!--Post Content-->
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="section-title-wrap d-flex align-items-center justify-content-md-between">
+                        <div class="section-title">
+                            <h1 class="receipe-post-title w-75">
+                                @Model.Title
+                            </h1>
+                        </div>
+                        <div class="section-title-line"></div>
+                    </div>
+                    <div class="post-wrap">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="blog-post-meta d-flex gap-3">
+                                    <a href="blog.html" class="post-tag">@(Model.Categories?.FirstOrDefault()?.CategoryName)</a>
+                                    <ul class="list-wrap d-flex justify-content-center gap-2 list-unstyled">
+                                        <li class="text-secondary d-flex gap-1">
+                                            <img src="~/img/user.png" alt="user-image" width="25" class="rounded-circle" />@(Model.AuthorName) |
+                                        </li>
+                                        <li class="text-secondary">
+                                            <i class="flaticon-calendar"></i>@Model.Date.ToString("dd MMMM, yyyy")
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="post-thumb">
+                                    @if (Model.ImageData is not null)
+                                    {
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.ImageData)"
+                                             alt="Image"
+                                             class="img-fluid" />
+                                    }
+                                </div>
+                                <div class="description mt-4">
+                                    <div class="description-content">
+                                        <h4>Description:</h4>
+                                        <p class="text-secondary">@Html.Raw(Model.Description)</p>
+                                    </div>
+                                </div>
+                                <div class="ingredients mt-4">
+                                    <div class="ingredients-content">
+                                        <h4 class="">Ingredients:</h4>
+
+                                        @foreach (string ingredient in Model.Ingredients!)
+                                        {
+                                            <p class="border-bottom p-1"><i class="far fa-circle fa-xs" style="color: #ac3e54;"></i> @ingredient</p>
+                                        }
+
+                                    </div>
+                                </div>
+                                <div class="post-content mt-4">
+                                    <div class="recipe-content d-flex flex-column">
+                                        <div class="data-container">
+                                            @Html.Raw(Model.Content)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--SideBar-->
+            <div class="col-lg-4">
+                <div class="sidebar-wrap">
+
+                    <div class="sidebar-widget position-relative mb-2 pt-4">
+                        <a href="https://play.google.com/store/games?hl=ar&gl=US&pli=1" target="_blank">
+                            <img src="~/img/gallery/sidebar-img-1.jpg" alt="app" class="img-fluid" />
+                        </a>
+                    </div>
+
+                    <div class="sidebar-widget position-relative mb-2">
+                        <div class="widget-title pt-4">
+                            <h4 class="fs-5 fw-bold pb-3">Featured Recipes</h4>
+                        </div>
+                        <div class="widget-content widget-image">
+                            <div class="row">
+                                <div class="col-12">
+                                    @foreach (BlogPost post in ViewBag.FeaturedPosts)
+                                    {
+                                        <div class="d-flex gap-2 pb-2">
+                                            <a asp-controller="Home" asp-action="Post" asp-route-id="@post.PostID">
+                                                <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData!)" alt="recipe-image"
+                                                     class="img-fluid" width="100" />
+                                            </a>
+                                            <div>
+                                                <p class="m-0 text-black">@post.Title</p>
+                                                <p class="m-0 text-secondary">@post.Date.ToString("dd MMMM, yyyy")</p>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget position-relative mb-2">
+                        <div class="widget-title pt-4">
+                            <h4 class="fs-5 fw-bold pb-3">Categories</h4>
+                        </div>
+                        <div class="widget-content position-relative">
+                            @foreach (Category category in ViewBag.Categories)
+                            {
+                                <div class="wrapper d-flex align-items-center gap-2 pb-2">
+                                    <div class="category-img">
+                                        @switch (categoryCounter)
+                                        {
+                                            case 0:
+                                                <a href="blog.html">
+                                                    <img src="/img/meals/categories_img01.png"
+                                                         alt="category"
+                                                         class="img-fluid" width="50" />
+                                                </a>
+                                                break;
+
+                                            case 1:
+                                                <a href="blog.html">
+                                                    <img src="/img/meals/categories_img02.png"
+                                                         alt="category"
+                                                         class="img-fluid" width="50" />
+                                                </a>
+                                                break;
+                                            case 2:
+                                                <a href="blog.html">
+                                                    <img src="/img/meals/categories_img03.png"
+                                                         alt="category"
+                                                         class="img-fluid" width="50" />
+                                                </a>
+                                                break;
+                                            case 3:
+                                                <a href="blog.html">
+                                                    <img src="/img/meals/categories_img04.png"
+                                                         alt="category"
+                                                         class="img-fluid" width="50" />
+                                                </a>
+                                                break;
+                                            case 4:
+                                                <a href="blog.html">
+                                                    <img src="/img/meals/categories_img05.png"
+                                                         alt="category"
+                                                         class="img-fluid" width="50" />
+                                                </a>
+                                                break;
+                                            case 5:
+                                                <a href="blog.html">
+                                                    <img src="/img/meals/categories_img06.png"
+                                                         alt="category"
+                                                         class="img-fluid" width="50" />
+                                                </a>
+                                                break;
+
+                                            default:
+                                                break;
+                                        }
+                                    </div>
+                                    <div class="category-container">
+                                        <p class="text-secondary sidebar-category">@(category.CategoryName)</p>
+                                        <p class="category-post-number text-secondary">(@category.Posts.Count)</p>
+                                    </div>
+                                </div>
+
+                                categoryCounter++;
+                            }
+                        </div>
+                    </div>
+                    <!--End SideBar-->
+                </div>
+            </div>
+</section>
+
+<!--Render Latest Recipes-->
+@await Component.InvokeAsync("LatestRecipes")
+
+<div class="separator-line"></div>
+
+<!--Comments-->
+<div class="container mt-5 mb-5">
+    <h4 class="">Leave a Reply</h4>
+    <p class="text-secondary">Your email address will not be published. Required fields are marked *</p>
+    <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col-12">
+            <form id="comments-form" method="post">
+                <input type="hidden" name="PostID" value="@Model.PostID" id="comment-post-id" />
+                <div class="comment-card">
+                    <div class="add-comment-container">
+                        <div class="d-flex align-items-center gap-4">
+                            <input name="Email" type="email" class="form-control comment-form-control" id="comment-email" placeholder="Enter your email *">
+                            <input name="Name" type="text" class="form-control comment-form-control" id="comment-name" placeholder="Enter your name *">
+                        </div>
+
+                        <div class="mt-3 p-3 form-color rounded-0">
+                            <input name="CommentBody" type="text" class="form-control comment-form-control" id="comment-body" placeholder="Enter your comment *">
+                            <button type="submit" class="btn btn-dark rounded-0 mt-2 add-comment">Submit</button>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 bg-light-brown">
+                        @foreach (var comment in Model.Comments)
+                        {
+                            if (comment.CommentStatus != CommentStatusOptions.Pending.ToString())
+                            {
+                                <div class="border-bottom p-3">
+                                    <div class="d-flex gap-2">
+                                        <img src="https://i.imgur.com/zQZSWrt.jpg" width="40" height="40" class="rounded-circle mr-3">
+                                        <div>
+                                            <span class="mr-2 fw-bold">@comment.Name</span>
+                                            <div class="w-100">
+                                                <div class="d-flex gap-1 align-items-center">
+                                                    <div class="d-flex flex-row align-items-center gap-1">
+
+                                                        <small class="c-badge">Top</small>
+                                                    </div>
+                                                    <small>@comment.CommentDate.ToString("MMMM dd, yyyy - hh:mm tt")</small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="comment-body">
+                                        <p class="comment-text mb-0 mt-2 fs-6">@comment.CommentBody</p>
+                                        <div class="user-feed m-0 d-flex align-items-center gap-2">
+                                            <span class="wish text-secondary"><i class="fas fa-heart mr-2 text-light-red"></i> 2</span>
+                                            <span class="wish text-secondary"><i class="far fa-thumbs-up mr-2 text-blue"></i> 5</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

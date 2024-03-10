@@ -1,0 +1,111 @@
+﻿<!--Font specific for this view-->
+<style>
+    body {
+        font-family: "Manrope", sans-serif;
+    }
+</style>
+
+@model IEnumerable<BlogPost>
+
+@{
+    ViewBag.Title = "Search";
+    int counter = 1;
+}
+
+<section>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-2 mt-5">
+                <h4 class="mb-3">Filter Recipes:</h4>
+                <p class="text-secondary fs-6 mb-2">What you are looking for?</p>
+                <form class="search-receipe mb-3" role="search" asp-controller="Home" asp-action="Search" method="post">
+                    <input type="hidden" id="searchString" value="@(ViewBag.SearchString)" />
+                    <input class="form-control me-2 rounded-0"
+                           type="search"
+                           placeholder="search recipe.."
+                           aria-label="Search" />
+
+                    <h5 class="mb-2 mt-5">Filter by Categories</h5>
+                    @foreach (Category category in ViewBag.Categories)
+                    {
+                        <div class="form-check pt-2">
+                            <input class="form-check-input" type="checkbox" name="filterBy" value="@(category.CategoryName)" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                @(category.CategoryName)
+                            </label>
+                        </div>
+                    }
+
+                    <h5 class="mb-2 mt-5">Filter by Date</h5>
+                    <div class="form-check pt-2">
+                        <input class="form-check-input" type="checkbox" name="newer" value="most recent" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Most Recent
+                        </label>
+                    </div>
+                    <div class="form-check pt-2">
+                        <input class="form-check-input" type="checkbox" name="older" value="older posts" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Older Posts
+                        </label>
+                    </div>
+
+                    <button class="btn btn-dark fw-semibold text-white rounded-0 mt-4"
+                            type="submit">
+                        Filter Results
+                    </button>
+                </form>
+            </div>
+            <div class="col-10">
+                <div class="row" id="add-more-posts">
+                    @foreach (BlogPost post in Model)
+                    {
+
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="receipe-post-img mt-5">
+                                @if (post.ImageData is not null)
+                                {
+                                    <a asp-controller="Home" asp-action="Post" asp-route-ID="@post.PostID">
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData)"
+                                             alt="Recipe"
+                                             class="img-fluid rounded receipe-img" />
+                                    </a>
+                                }
+                            </div>
+                            <div class="featured-post-content pt-2">
+                                <h2 class="fs-5 fw-bold text-center text-teal">
+                                    @post.Title
+                                </h2>
+                                <p class="ellipsis mb-1">@Html.Raw(post.Description)</p>
+                                <div class="post-meta">
+                                    <div class="d-flex gap-3 justify-content-center align-items-center">
+                                        <p class="text-secondary"><i style="color: #d84" class="fas fa-calendar-check"></i> @post.Date.ToString("dd MMMM, yyyy")</p>
+                                        @foreach (Category category in post.Categories!)
+                                        {
+                                            <p class="text-secondary"><i style="color: #d84" class="fas fa-cheese"></i> @category.CategoryName</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @* Pagination Start *@
+                    <div class="mt-3 mb-3">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination w-25 ms-auto me-auto">
+                                <li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Search"><i class="fas fa-chevron-left"></i></a></li>
+                                @while (counter <= ViewBag.TotalPages)
+                                {
+                                    <li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Search" asp-route-pageNumber="@counter" asp-route-searchString="@(ViewBag.SearchString)">@counter</a></li>
+                                    counter++;
+                                }
+                                <li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Search" asp-route-pageNumber="@(counter + 1)" asp-route-searchString="@(ViewBag.SearchString)"><i class="fas fa-chevron-right"></i></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    @* Pagination End *@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

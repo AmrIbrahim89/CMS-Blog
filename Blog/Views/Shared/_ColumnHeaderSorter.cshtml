@@ -1,0 +1,12 @@
+﻿@if (ViewBag.CurrentSortBy == ViewBag.ColumnName && ViewBag.CurrentSortOrder == SortOrderOptions.Ascending)
+{
+    <th scope="col"><a href="~/Admin/AllPosts?sortBy=@(ViewBag.ColumnName)&sortOrder=@(SortOrderOptions.Descending)">@(ViewBag.DisplayName) <i class="ps-2 fas fa-sort-amount-up"></i></a></th>
+}
+else if (ViewBag.CurrentSortBy == ViewBag.ColumnName && ViewBag.CurrentSortOrder == SortOrderOptions.Descending)
+{
+    <th scope="col"><a href="~/Admin/AllPosts?sortBy=@(ViewBag.ColumnName)&sortOrder=@(SortOrderOptions.Ascending)">@(ViewBag.DisplayName) <i class="ps-2 fas fa-sort-amount-down"></i></a></th>
+}
+else
+{
+    <th scope="col"><a href="~/Admin/AllPosts?sortBy=@(ViewBag.ColumnName)&sortOrder=@(SortOrderOptions.Ascending)">@(ViewBag.DisplayName) <i class="ps-2 fas fa-sort-amount-down"></i></a></th>
+}

@@ -1,0 +1,137 @@
+﻿@model IEnumerable<CommentResponse>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Admin Panel";
+}
+
+<!-- Row start -->
+<div class="row">
+    <div class="col-xxl-3 col-sm-6 col-12">
+        <div class="stats-tile">
+            <div class="sale-icon shade-red">
+                <i class="bi bi-pie-chart"></i>
+            </div>
+            <div class="sale-details">
+                <h3 class="text-red">250k</h3>
+                <p>Viewers</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-sm-6 col-12">
+        <div class="stats-tile">
+            <div class="sale-icon shade-blue">
+                <i class="bi bi-emoji-smile"></i>
+            </div>
+            <div class="sale-details">
+                <h3 class="text-blue">24m</h3>
+                <p>Users</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-sm-6 col-12">
+        <div class="stats-tile">
+            <div class="sale-icon shade-yellow">
+                <i class="bi bi-box-seam"></i>
+            </div>
+            <div class="sale-details">
+                <h3 class="text-yellow">15k</h3>
+                <p>Posts</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-sm-6 col-12">
+        <div class="stats-tile">
+            <div class="sale-icon shade-green">
+                <i class="bi bi-handbag"></i>
+            </div>
+            <div class="sale-details">
+                <h3 class="text-green">180m</h3>
+                <p>Revenue</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Row end -->
+<!-- Row start -->
+<div class="row">
+    <div class="col-xxl-9 col-sm-12 col-12">
+        <div class="card">
+            <div class="card-body">
+                <!-- Row start -->
+                <div class="row">
+                    <div class="col-xxl-12 col-sm-8 col-12">
+                        <div class="row">
+                            <div>
+                                <canvas class="h-100" id="myChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row end -->
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-sm-12 col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title"><i class="fas fa-comment-dots"></i>Recent Comments</div>
+            </div>
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        @foreach(var comment in Model.Take(2))
+                        {
+                            <div class="p-1 mb-2" id="comment-data">
+                                <div class="d-flex gap-2">
+                                    <img src="https://i.imgur.com/zQZSWrt.jpg" width="40" height="40" class="rounded-circle mr-3">
+                                    <div class="comment-meta">
+                                        <span class="mr-2 fw-bold">@comment.Name</span>
+                                        <div class="w-100">
+                                            <div class="d-flex gap-1 align-items-center">
+                                                <small>@comment.CommentDate.ToString("MMMM dd, yyyy - hh:mm tt")</small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="comment-body">
+                                    <p class="comment-text p-0 m-0 fs-6">@comment.CommentBody</p>
+                                </div>
+                            </div>
+                        } 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Row end -->
+<!-- Page wrapper end -->
+
+<!--Charts-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById("myChart");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [
+                {
+                    label: "# of Views",
+                    data: [12, 19, 3, 5, 2, 3, 8, 5, 4, 6, 9, 7],
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
+</script>

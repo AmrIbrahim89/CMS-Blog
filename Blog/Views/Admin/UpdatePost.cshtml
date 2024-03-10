@@ -1,0 +1,29 @@
+﻿@model BlogPost
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Update Post";
+}
+
+<h3>Update Post</h3>
+
+<form asp-action="Update" asp-controller="Admin" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="PostID"/>
+    <label for="title">Post Title</label>
+    <input asp-for="Title"/>
+    <label for="content">Post Content</label>
+    <textarea asp-for="Content" class="content" >
+
+    </textarea>
+    <label for="imageTitle">Image Title</label>
+    <input asp-for="ImageTitle"/>
+    <img src="data:image/png;base64,@Convert.ToBase64String(@Model.ImageData!)" width="200" alt="Post Image" />
+    <input type="file" id="file" name="file" multiple="multiple" />
+    <input type="submit" value="Update">
+</form>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

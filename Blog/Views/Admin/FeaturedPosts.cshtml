@@ -1,0 +1,62 @@
+﻿@model IEnumerable<BlogPost>
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Featured Posts";
+}
+
+<form asp-controller="Admin" asp-action="AllPosts" method="get">
+
+    <!-- Row start -->
+    <div class="row">
+        <div class="col-xxl-12 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Row start -->
+                    <div class="row">
+                        <div class="container table-responsive py-5">
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Post Image</th>
+                                        <th scope="col">Post Title</th>
+                                        <th scope="col">Post Author</th>
+                                        <th scope="col">Post Date</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (BlogPost post in Model)
+                                    {
+                                        <tr>
+                                            <td scope="row">@String.Join("", post.PostID.ToString()!.Take(3))</td>
+                                            <td>
+                                                <img src="data:image/png;base64,@Convert.ToBase64String(post.ImageData!)"
+                                                     alt="post image"
+                                                     class="img-fluid"
+                                                     width="100" />
+                                            </td>
+                                            <td>@post.Title</td>
+                                            <td>@post.Author</td>
+                                            <td>@post.Date.ToString("yyyy-MM-dddd")</td>
+                                            <td>
+                                                <div class="blog-posts-container">
+                                                    <div class="blog-post">
+                                                        <a asp-controller="Admin" asp-action="UpdatePost" asp-route-ID="@post.PostID" class="btn btn-primary">Edit</a>
+                                                        <a asp-controller="Admin" asp-action="DeletePost" asp-route-postID="@post.PostID" class="btn btn-danger">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Row end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
