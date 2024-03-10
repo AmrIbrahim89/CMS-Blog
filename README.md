@@ -1,2 +1,3 @@
 # A Content Management System (CMS)
-This branch of the repo contains starter files and final code for all sections and projects of the course, exactly as shown in the videos.
+This branch of the repo contains starter files and most of final code for all services in the project.
+project is 90% complete
