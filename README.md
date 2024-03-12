@@ -3,7 +3,7 @@
 This is a content managment system using asp net core mvc, entity framework core, c#,  javascript, bootstrap, css and html.</br>
 The project is for learning purposes and it's 85% complete.</br></br>
 
-What was implemented?</br>
+✔️What was implemented?</br>
 - Blog home page.</br>
 - Admin panel including crud operations for adding/deleting/editing/reading blog post.</br>
 - Categories, pages, users (admin- authors).</br>
@@ -17,7 +17,7 @@ What was implemented?</br>
 - Dark mode.</br>
 - Charts.<br>
 
-What is currecntly being implemented or enhanced?</br>
+✔️What is currecntly being implemented or enhanced?</br>
 - Website responsiveness.</br>
 - Dark mode on all pages.</br>
 - Adding menues (primary / secondary).</br>
@@ -26,7 +26,7 @@ What is currecntly being implemented or enhanced?</br>
 - Contact us page with response email.</br>
 - Some Code Refactoring and unit testing.</br></br>
 
-What might be implemented in the future?</br>
+✔️What might be implemented in the future?</br>
 - In-time chat between different users.
 
 
