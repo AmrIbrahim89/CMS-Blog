@@ -1,3 +1,5 @@
 # A Content Management System (CMS)
-This branch of the repo contains starter files and most of final code for all services in the project. <br />
---project is 90% complete--
+
+This is a content managment system using asp net core mvc, entity framework core, c#,  javascript, bootstrap, css and html. </br>
+The project is for learning purposes and it's 90% complete.
+
