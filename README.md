@@ -1,7 +1,7 @@
 # A Content Management System (CMS)
 
 This is a content managment system using asp net core mvc, entity framework core, c#,  javascript, bootstrap, css and html.</br>
-The project is for learning purposes and it's 90% complete.</br></br>
+The project is for learning purposes and it's 85% complete.</br></br>
 
 What was implemented?</br>
 - Blog home page.</br>
@@ -12,14 +12,19 @@ What was implemented?</br>
 - Blog post viewers and subscription.</br>
 - Featured and recent blog posts.</br>
 - Comments on blogpost.</br>
-- Dark mode.</br></br>
+- User Profile.</br>
+- Media Upload.</br>
+- Dark mode.</br>
+- Charts.<br>
 
 What is currecntly being implemented or enhanced?</br>
 - Website responsiveness.</br>
 - Dark mode on all pages.</br>
 - Adding menues (primary / secondary).</br>
 - Adding page to specific menu.</br>
-- Contact us page with response email.</br></br>
+- Adding blogpost images from existing media.</br>
+- Contact us page with response email.</br>
+- Some Code Refactoring and unit testing.</br></br>
 
 What might be implemented in the future?</br>
 - In-time chat between different users.
