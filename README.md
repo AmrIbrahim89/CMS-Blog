@@ -1,4 +1,4 @@
-# A Content Management System (CMS)
+# Content Management System (CMS)
 
 This is a content managment system using asp net core mvc, entity framework core, c#,  javascript, bootstrap, css and html.</br>
 The project is for learning purposes and it's 85% complete.</br></br>
