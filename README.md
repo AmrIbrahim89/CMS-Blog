@@ -5,7 +5,7 @@ The project is for learning purposes and it's 85% complete.</br></br>
 
 ✔️What was implemented?</br>
 - Blog home page.</br>
-- Admin panel including crud operations for adding/deleting/editing/reading blog post.</br>
+- Admin panel including crud operations</br>
 - Categories, pages, users (admin- authors).</br>
 - Filters and search functionality.</br>
 - Load more and pagination.</br>
