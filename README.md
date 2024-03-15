@@ -26,8 +26,5 @@ The project is for learning purposes and it's 85% complete.</br></br>
 - Contact us page with response email.</br>
 - Some Code Refactoring and unit testing.</br></br>
 
-✔️What might be implemented in the future?</br>
-- In-time chat between different users.
-
 
 
