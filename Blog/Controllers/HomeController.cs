@@ -100,6 +100,13 @@ namespace TechBlog.Controllers
             return View();
         }
 
+        [HttpGet]
+        [Route("contact")]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
         #endregion
 
         [HttpGet]

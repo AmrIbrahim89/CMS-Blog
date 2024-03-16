@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using RepositoryContracts;
 using ServiceContracts;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
@@ -15,6 +16,7 @@ namespace TechBlog.Controllers
         private readonly ICommentGetterService _commentGetterService;
         private readonly ICommentDeleterService _commentDeleterService;
         private readonly IMenuAdderService _menuAdderService;
+        private readonly IMenuGetterService _menuGetterService;
         private readonly IPageGetterService _pageGetterService;
 
         // we should move this to repository, don't update db here.
@@ -22,12 +24,13 @@ namespace TechBlog.Controllers
 
         public HelperController(IBlogPostGetterService blogPostGetterService, ApplicationDBContext dBContext, 
             IPageGetterService pageGetterService, ICommentAdderService commentAdderService, ICommentGetterService commentGetter, 
-            ICommentDeleterService commentDeleterService, IMenuAdderService menuAdderService)
+            ICommentDeleterService commentDeleterService, IMenuGetterService menuGetterService, IMenuAdderService menuAdderService)
         {
             _blogPostGetterService = blogPostGetterService;
             _commentAdderService = commentAdderService;
             _commentGetterService = commentGetter;
             _commentDeleterService = commentDeleterService;
+            _menuGetterService = menuGetterService;
             _menuAdderService = menuAdderService;
             _pageGetterService = pageGetterService;
             _dbContext = dBContext;
@@ -113,14 +116,16 @@ namespace TechBlog.Controllers
             return Ok();
         }
 
-        [HttpPatch("/api/AddMenuItem")]
-        public async Task<IActionResult> AddMenuItem(Menu menu, string item)
-        {
-            menu.MenuElements?.Add(item);
-            await _dbContext.SaveChangesAsync();
+        
+        //[HttpPatch("/api/AddMenuItem")]
+        //public async Task<IActionResult> AddMenuItem(Guid pageID)
+        //{
+        //    Menu? menu = await _menuGetterService.GetMenu(Guid.Parse("fe5b7770-8825-4a8e-5109-08dc40aae96e"));
+        //    menu?.MenuElements?.Add(pageID);
+        //    await _dbContext.SaveChangesAsync();
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
         [HttpGet]
         [Route("Uploads")]

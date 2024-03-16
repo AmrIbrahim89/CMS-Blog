@@ -25,6 +25,7 @@ namespace Services
 
             ValidatorHelper.ModelValidation(page);
             page.ImageData = await ImageFileToByteArray.Convert(image);
+            page.PageUrl = $"Home/{page.PageSlug}";
 
             await _pageRepository.AddPage(page);
             return page;

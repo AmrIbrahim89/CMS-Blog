@@ -17,17 +17,27 @@
             <!--Page Content-->
             <div class="col-12">
                 <div class="page-image">
-                    <img src="data:image/png;base64,@Convert.ToBase64String(Model.ImageData!)"
+                    <img src="~/img/gallery/about-us-image.jpg"
                          alt="Image"
                          class="img-fluid"
                          loading="lazy"
-                         style="max-height: 400px" width="100"/>
+                         style="max-height: 35rem; width: 100%"/>
                 </div>
 
                 <div class="page-content">
-                    <h1 class="text-center pt-4 pb-4">@Model.Title</h1>
+                    <h1 class="text-center pt-4 pb-4">About Us</h1>
                     <div class="page-text">
-                        @Html.Raw(Model.Content)
+                       <p class="lh-lg">
+                            I’m Shane, a girly girl and lover of life. Join me on the journey to find latest in fashion. More off this less hello salamander lied porpoise much over tightly circa horse taped so innocuously outside crud mightily rigorous negative one inside gorilla and drew humbly shot tortoise inside opaquely. Crud much unstinting violently pessimistically far camel inanimately.
+
+                            Coquettish darn pernicious foresaw therefore much amongst lingeringly shed much due antagonistically alongside so then more and about turgid wrote so stunningly this that much slew. Forbade panther desolately iguanodon alas in goodness goodness re-laid when wishful but yet and trim hey went the tamarin some during obsessively into far notwithstanding aristocratic a ouch jeez goodness chameleon because piranha. More off this less hello salamander lied porpoise much over tightly circa horse taped so innocuously.
+                       </p>
+                       <p>
+                            Meh synth Schlitz, tempor duis single-origin coffee ea next level ethnic fingerstac fanny pack nostrud.
+                            More off this less hello salamander lied porpoise much over tightly circa horse taped.
+                            Crud much unstinting violently pessimistically far camel inanimately.
+                            That far ground rat pure from newt far panther crane lorikeet overlay alas cobra across much gosh less goldfinch ruthlessly alas examined and that more and the ouch jeez.
+                       </p>
                     </div>
                 </div>
             </div>
@@ -45,7 +55,3 @@
         </div>
     </div>
 </section>
-
-<!--Render Latest Recipes-->
-@* @await Component.InvokeAsync("LatestRecipes")
- *@

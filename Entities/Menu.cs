@@ -10,6 +10,6 @@ namespace Entities
         [Required(ErrorMessage = "Menu must have a name.")]
         [StringLength(30)]
         public string MenuName { get; set; } = string.Empty;
-        public List<string>? MenuElements { get; set; }
+        public List<Guid>? MenuElements { get; set; }
     }
 }

@@ -124,18 +124,14 @@ document.addEventListener('DOMContentLoaded', () => {
     //        try {
 
     //            const pageID = document.querySelector('.page-id');
-    //            const response = await fetch(`/api/AddPageToMenu?pageID=${pageID.value}`, { method: 'GET' });
+    //            const response = await fetch(`/api/AddMenuItem?pageID=${pageID.value}`, { method: 'PATCH' });
 
     //            if (!response.ok) {
 
-    //                console.log('Page was not added to main menu');
+    //                console.log('Page was not added to primary menu');
     //            }
 
-    //            const page = await response.text();
-    //            //const page = await response.json();
-    //            console.log(page);
-
-    //            localStorage.setItem('newMenuItem', JSON.stringify(page));
+    //            console.log("Page id added to primary menu.");
 
     //        } catch (err) {
 
@@ -178,33 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
         darkMode();
         localStorage.setItem("darkModeEnabled", document.body.classList.contains('dark-mode'));
     })
-
-    //Add elements to menu
-    if (addPageToMenuBtn) {
-
-        addPageToMenuBtn.addEventListener('click', async () => {
-
-            try {
-
-                const response = await fetch(`/api/AddMenuItem`, { method: "PATCH" });
-
-                if (!response.ok) {
-
-                    console.log("Menu item was not added.");
-                }
-
-                console.log("Menu item added Successfully!");
-
-
-            } catch (err) {
-
-                console.error(err);
-            }
-
-
-
-        });
-    }
      
     //END..
 });

@@ -30,6 +30,7 @@ namespace TechBlog.Controllers
         private readonly IUserUpdaterService _userUpdaterService;
         private readonly ICommentGetterService _commentGetterService;
         private readonly IMenuAdderService _menuAdderService;
+        private readonly IMenuGetterService _menuGetterService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDBContext _dBContext;
         private const int pageSize = 4;
@@ -41,7 +42,7 @@ namespace TechBlog.Controllers
               IMediaGetterService mediaGetterService, IMediaDeleterService mediaDeleterService, ICategoryAdderService categoryAdderService, 
               ICategoryGetterService categoryGetterService, IPageAdderService pageAdderService, ApplicationDBContext dBContext, 
               IPageGetterService pageGetterService, IPageDeleterService pageDeleterService, IUserUpdaterService userUpdaterService, 
-              ICommentGetterService commentGetterService, IMenuAdderService menuAdderService)
+              ICommentGetterService commentGetterService, IMenuAdderService menuAdderService, IMenuGetterService menuGetterService)
         {
             _logger = logger;
             _userManager = userManager;
@@ -62,6 +63,7 @@ namespace TechBlog.Controllers
             _categoryGetterService = categoryGetterService;
             _commentGetterService = commentGetterService;
             _menuAdderService = menuAdderService;
+            _menuGetterService = menuGetterService;
             _dBContext = dBContext;
         }
 
@@ -212,6 +214,7 @@ namespace TechBlog.Controllers
         public async Task<IActionResult> AllPages()
         {
             List<Page> pages = await _pageGetterService.GetAllPages();
+            ViewBag.Menues = await _menuGetterService.GetMenu(Guid.Parse("fe5b7770-8825-4a8e-5109-08dc40aae96e"));
             return View(pages);
         }
         #endregion
@@ -330,6 +333,7 @@ namespace TechBlog.Controllers
         }
         #endregion
 
+
         #region Messages
         [HttpGet]
         [Route("Messages")]
@@ -338,6 +342,7 @@ namespace TechBlog.Controllers
             return View();
         }
         #endregion
+
 
         #region Comments
         [HttpGet]
@@ -348,6 +353,7 @@ namespace TechBlog.Controllers
             return View(comments);
         }
         #endregion
+
 
         #region Menues
 
