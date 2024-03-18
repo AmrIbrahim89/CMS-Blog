@@ -23,7 +23,7 @@ The project is for learning purposes and it's 85% complete.</br></br>
 - Adding menues (primary / secondary).</br>
 - Adding page to specific menu.</br>
 - Adding blogpost images from existing media.</br>
-- Contact us page with response email.</br>
+- Contact us page with smtp service.</br>
 - Some Code Refactoring and unit testing.</br></br>
 
 
